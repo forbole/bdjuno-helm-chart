@@ -1,0 +1,39 @@
+{{- $serviceName := include "bdjuno.fullname" . }}
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "bdjuno.fullname" . }}
+  labels:
+    {{- include "bdjuno.labels" . | nindent 4 }}
+  {{- with .Values.bdjuno.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.bdjuno.ingress.className }}
+  {{- if .Values.bdjuno.ingress.tls }}
+  tls:
+  {{- range .Values.bdjuno.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.bdjuno.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{  $serviceName  }}
+                port:
+                  number: {{ .port }}
+          {{- end }}
+    {{- end }}

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "hasura.fullname" . }}
+  labels:
+    {{- include "hasura.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.hasura.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "hasura.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.hasura.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 -}}
+      {{- end }}
+      labels:
+        {{- include "hasura.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: hasura
+          image: "{{ .Values.hasura.image.repository }}:{{ .Values.hasura.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.hasura.image.pullPolicy }}
+          {{- if .Values.hasura.command }}
+          command: 
+            {{- range .Values.hasura.command }}
+          - {{ . }}
+            {{- end }} 
+          {{- end }} 
+          {{- if .Values.hasura.args }}
+          args: 
+            {{- range .Values.hasura.args }}
+          - {{ . }}
+            {{- end }}  
+          {{- end }} 
+          ports:
+            - name: {{ include "hasura.fullname" . }}
+              containerPort: 8080
+          env:
+          {{- range .Values.hasura.env }}
+            - name: {{ .name }}
+              value: {{ .value }}
+          {{- end }}
+      {{- with .Values.hasura.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.hasura.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.hasura.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: bdjuno

@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  bdjuno:
+  - apiVersion: v2
+    created: "2022-10-10T07:57:27.424685972Z"
+    description: A Helm chart for deploying bdjuno
+    digest: f0b52a6312e0acb85d256962dfffd7b2f6031e2ce2b769216712b962bdd89436
+    name: bdjuno
+    type: application
+    urls:
+    - https://forbole.github.io/bdjuno-helm-chart/bdjuno-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-10-10T07:57:27.422555473Z"

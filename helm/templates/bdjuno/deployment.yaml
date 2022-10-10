@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "bdjuno.fullname" . }}
+  {{- if .Values.bdjuno.annotations }}
+  annotations:
+    {{ toYaml . | nindent 8 }}
+  {{- end }}
+  labels:
+    {{- include "bdjuno.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.bdjuno.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "bdjuno.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.bdjuno.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 -}}
+      {{- end }}
+      labels:
+        {{- include "bdjuno.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: bdjuno
+          image: "{{ .Values.bdjuno.image.repository }}:{{ .Values.bdjuno.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.bdjuno.image.pullPolicy }}
+          {{- if .Values.bdjuno.command }}
+          command: 
+            {{- range .Values.bdjuno.command }}
+          - {{ . }}
+            {{- end }} 
+          {{- end }} 
+          {{- if .Values.bdjuno.args }}
+          args: 
+            {{- range .Values.bdjuno.args }}
+          - {{ . }}
+            {{- end }}  
+          {{- end }} 
+          ports:
+            - name: monitoring
+              containerPort: 9090
+            - name: hasura-action
+              containerPort: 3000
+      serviceAccountName: bdjuno
+      {{- with .Values.bdjuno.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.bdjuno.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.bdjuno.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

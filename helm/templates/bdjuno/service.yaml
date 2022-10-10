@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "bdjuno.fullname" . }}
+  labels:
+    {{- include "bdjuno.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+      name: monitoring
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: hasura-action
+  selector:
+    {{- include "bdjuno.selectorLabels" . | nindent 4 }}
