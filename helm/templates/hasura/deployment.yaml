@@ -42,6 +42,8 @@ spec:
             - name: {{ .name }}
               value: {{ .value }}
           {{- end }}
+            - name: "ACTION_BASE_URL"
+              value: http://{{ include "bdjuno.fullname" . }}:3000
       {{- with .Values.hasura.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
