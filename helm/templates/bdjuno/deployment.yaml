@@ -38,11 +38,9 @@ spec:
           - {{ . }}
             {{- end }}  
           {{- end }}
-          {{- if .Values.bdjuno.volumeMounts }}
+          {{- with .Values.bdjuno.volumeMounts }}
           volumeMounts:
-            {{- range .Values.bdjuno.volumeMounts }}
-          - {{ . }}
-            {{- end }} 
+            {{- toYaml . | nindent 10 }}
           {{- end }}
           ports:
             - name: monitoring
@@ -62,9 +60,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- if .Values.bdjuno.volumes }}
-    volumes:
-      {{- range .Values.bdjuno.volumes }}
-      - {{ . }}
-      {{- end }} 
-    {{- end }}
+      {{- with .Values.bdjuno.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
