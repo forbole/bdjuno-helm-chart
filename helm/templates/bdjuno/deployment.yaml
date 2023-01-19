@@ -37,7 +37,13 @@ spec:
             {{- range .Values.bdjuno.args }}
           - {{ . }}
             {{- end }}  
-          {{- end }} 
+          {{- end }}
+          {{- if .Values.bdjuno.volumeMounts }}
+          volumeMounts:
+            {{- range .Values.bdjuno.volumeMounts }}
+          - {{ . }}
+            {{- end }} 
+          {{- end }}
           ports:
             - name: monitoring
               containerPort: 9090
@@ -56,3 +62,9 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+    {{- if .Values.bdjuno.volumes }}
+    volumes:
+      {{- range .Values.bdjuno.volumes }}
+      - {{ . }}
+      {{- end }} 
+    {{- end }}
