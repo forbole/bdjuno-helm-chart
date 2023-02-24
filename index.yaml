@@ -2,16 +2,25 @@ apiVersion: v1
 entries:
   bdjuno:
   - apiVersion: v2
-    created: "2023-01-19T11:17:22.455321095Z"
+    created: "2023-02-24T01:45:02.917024481Z"
     description: A Helm chart for deploying bdjuno
-    digest: 972ef159e4ae9a2618f5a0ab99f57107a198b4e085c1b0aee753f570042f1abd
+    digest: 98abadf3e953c656d8ac4471bff28eec89e4a3e6feae9880acfbd5a8a5b422de
+    name: bdjuno
+    type: application
+    urls:
+    - https://forbole.github.io/bdjuno-helm-chart/bdjuno-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    created: "2023-02-24T01:45:02.916013994Z"
+    description: A Helm chart for deploying bdjuno
+    digest: 275b20bb06d6304a36a23cd530ae62359566366a417d346581e9bb8cd3b1e4c0
     name: bdjuno
     type: application
     urls:
     - https://forbole.github.io/bdjuno-helm-chart/bdjuno-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v2
-    created: "2023-01-19T11:17:22.454117396Z"
+    created: "2023-02-24T01:45:02.91461338Z"
     description: A Helm chart for deploying bdjuno
     digest: b4baa62f86473ca247399357843a74a205609e5e1ee276449309ec4b08ca6706
     name: bdjuno
@@ -20,7 +29,7 @@ entries:
     - https://forbole.github.io/bdjuno-helm-chart/bdjuno-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    created: "2023-01-19T11:17:22.452542346Z"
+    created: "2023-02-24T01:45:02.909344467Z"
     description: A Helm chart for deploying bdjuno
     digest: f0b52a6312e0acb85d256962dfffd7b2f6031e2ce2b769216712b962bdd89436
     name: bdjuno
@@ -28,4 +37,4 @@ entries:
     urls:
     - https://forbole.github.io/bdjuno-helm-chart/bdjuno-0.1.0.tgz
     version: 0.1.0
-generated: "2023-01-19T11:17:22.450885247Z"
+generated: "2023-02-24T01:45:02.904727803Z"
