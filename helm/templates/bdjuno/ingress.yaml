@@ -30,6 +30,9 @@ spec:
           {{- range .paths }}
           - path: {{ .path }}
             pathType: {{ .pathType }}
+            {{- with .rewrite }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
             backend:
               service:
                 name: {{  $serviceName  }}
