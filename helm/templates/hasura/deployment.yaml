@@ -46,6 +46,27 @@ spec:
               value: http://{{ include "bdjuno.fullname" . }}:3000
           resources:
             {{- toYaml .Values.hasura.resources | nindent 12 }}
+      {{- if .Values.hasura.metricsAdapter.enabled }}
+          volumeMounts:
+          - name: logs
+            mountPath: /tmp/log
+        - name: hasura-metric-adapter
+          image: "{{ .Values.hasura.metricsAdapter.image.repository }}:{{ .Values.hasura.metricsAdapter.image.tag }}"
+          imagePullPolicy: {{ .Values.hasura.metricsAdapter.image.pullPolicy }}
+          env:
+            - name: LOG_FILE
+              value: /tmp/log/stdout.log
+          volumeMounts:
+          - name: logs
+            mountPath: /tmp/log
+          ports:
+          - containerPort: 9090
+            protocol: TCP
+      volumes:
+      - name: logs
+        emptyDir: {}
+      shareProcessNamespace: true
+      {{- end }}
       {{- with .Values.hasura.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

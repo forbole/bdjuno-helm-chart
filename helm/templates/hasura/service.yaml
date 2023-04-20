@@ -11,5 +11,11 @@ spec:
       targetPort: 8080
       protocol: TCP
       name: {{ include "hasura.fullname" . }}
+    {{- if .Values.hasura.metricsAdapter.enabled }}
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+      name: "{{ include "hasura.fullname" . }}-metrics"
+    {{- end }}
   selector:
     {{- include "hasura.selectorLabels" . | nindent 4 }}
